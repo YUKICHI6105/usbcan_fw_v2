@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "usbd_cdc_if.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -87,7 +87,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-
+  uint8_t buffer[] = "Hello\n";
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -96,14 +96,14 @@ int main(void)
   {
 	 switch(hUsbDeviceFS.dev_state){
 	 case USBD_STATE_DEFAULT:
-		 HAL_GPIO_TogglePin(GPIOB,LED_RED_Pin);
+		 HAL_GPIO_WritePin(GPIOB,LED_RED_Pin,GPIO_PIN_SET);
 		 break;
 	 case USBD_STATE_ADDRESSED :
-		 HAL_GPIO_TogglePin(GPIOB,LED_RED_Pin);
+		 HAL_GPIO_WritePin(GPIOB,LED_YELLOW_Pin,GPIO_PIN_SET);
 		 break;
 	 case USBD_STATE_SUSPENDED  :
-		 HAL_GPIO_TogglePin(GPIOB,LED_RED_Pin);
-		 HAL_GPIO_TogglePin(GPIOB,LED_YELLOW_Pin);
+		 HAL_GPIO_WritePin(GPIOB,LED_RED_Pin,GPIO_PIN_SET);
+		 HAL_GPIO_WritePin(GPIOB,LED_YELLOW_Pin,GPIO_PIN_SET);
 		 break;
 	 case USBD_STATE_CONFIGURED :
 		 HAL_GPIO_WritePin(GPIOB,LED_CAN_Pin,GPIO_PIN_SET);
@@ -115,7 +115,7 @@ int main(void)
 	 HAL_Delay(10);
 	 HAL_GPIO_WritePin(GPIOB,LED_RED_Pin|LED_YELLOW_Pin|LED_CAN_Pin,GPIO_PIN_RESET);
 
-	 CDC_Transmit_FS("Hello\n",6);
+	 CDC_Transmit_FS(buffer,6);
   }
   /* USER CODE END 3 */
 }
