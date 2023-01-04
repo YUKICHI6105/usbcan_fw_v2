@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "usbd_cdc_if.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,6 +40,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+CAN_HandleTypeDef hcan;
 
 /* USER CODE BEGIN PV */
 
@@ -48,6 +49,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_CAN_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -86,36 +88,33 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
+  MX_CAN_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t buffer[] = "Hello\n";
+//  main_cpp();
+  CAN_FilterTypeDef filter;
+  filter.FilterIdHigh         = 0;                        // フィルターID(上�?16ビッ�?)
+  filter.FilterIdLow          = 0;                        // フィルターID(下�?16ビッ�?)
+  filter.FilterMaskIdHigh     = 0;                        // フィルターマスク(上�?16ビッ�?)
+  filter.FilterMaskIdLow      = 0;                        // フィルターマスク(下�?16ビッ�?)
+  filter.FilterScale          = CAN_FILTERSCALE_32BIT;    // フィルタースケール
+  filter.FilterFIFOAssignment = CAN_FILTER_FIFO0;         // フィルターに割り当てるFIFO
+  filter.FilterBank           = 0;                        // フィルターバンクNo
+  filter.FilterMode           = CAN_FILTERMODE_IDMASK;    // フィルターモー�?
+  filter.SlaveStartFilterBank = 14;                       // スレーブCANの開始フィルターバンクNo
+  filter.FilterActivation     = ENABLE;                   // フィルター無効?��有効
+  HAL_CAN_ConfigFilter(&hcan, &filter);
+
+
+  HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	 switch(hUsbDeviceFS.dev_state){
-	 case USBD_STATE_DEFAULT:
-		 HAL_GPIO_WritePin(GPIOB,LED_RED_Pin,GPIO_PIN_SET);
-		 break;
-	 case USBD_STATE_ADDRESSED :
-		 HAL_GPIO_WritePin(GPIOB,LED_YELLOW_Pin,GPIO_PIN_SET);
-		 break;
-	 case USBD_STATE_SUSPENDED  :
-		 HAL_GPIO_WritePin(GPIOB,LED_RED_Pin,GPIO_PIN_SET);
-		 HAL_GPIO_WritePin(GPIOB,LED_YELLOW_Pin,GPIO_PIN_SET);
-		 break;
-	 case USBD_STATE_CONFIGURED :
-		 HAL_GPIO_WritePin(GPIOB,LED_CAN_Pin,GPIO_PIN_SET);
-		 break;
-	 }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	 HAL_Delay(10);
-	 HAL_GPIO_WritePin(GPIOB,LED_RED_Pin|LED_YELLOW_Pin|LED_CAN_Pin,GPIO_PIN_RESET);
-
-	 CDC_Transmit_FS(buffer,6);
   }
   /* USER CODE END 3 */
 }
@@ -164,6 +163,43 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief CAN Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CAN_Init(void)
+{
+
+  /* USER CODE BEGIN CAN_Init 0 */
+
+  /* USER CODE END CAN_Init 0 */
+
+  /* USER CODE BEGIN CAN_Init 1 */
+
+  /* USER CODE END CAN_Init 1 */
+  hcan.Instance = CAN;
+  hcan.Init.Prescaler = 2;
+  hcan.Init.Mode = CAN_MODE_NORMAL;
+  hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
+  hcan.Init.TimeSeg1 = CAN_BS1_15TQ;
+  hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
+  hcan.Init.TimeTriggeredMode = DISABLE;
+  hcan.Init.AutoBusOff = ENABLE;
+  hcan.Init.AutoWakeUp = DISABLE;
+  hcan.Init.AutoRetransmission = DISABLE;
+  hcan.Init.ReceiveFifoLocked = DISABLE;
+  hcan.Init.TransmitFifoPriority = DISABLE;
+  if (HAL_CAN_Init(&hcan) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CAN_Init 2 */
+
+  /* USER CODE END CAN_Init 2 */
+
 }
 
 /**

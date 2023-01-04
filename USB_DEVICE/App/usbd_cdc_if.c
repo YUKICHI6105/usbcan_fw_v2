@@ -22,7 +22,7 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN INCLUDE */
-
+#include "can_usb.h"
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -31,6 +31,9 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+uint8_t DecodedData[64];
+uint8_t data_index = 0;
+uint8_t zero_count = 0;
 
 /* USER CODE END PV */
 
@@ -292,6 +295,36 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   /* USER CODE BEGIN 6 */
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+  //COBS decode
+  for(int i=0;i<*Len;i++)
+  {
+    zero_count--;
+
+    if(Buf[i]==0x00){
+      if(zero_count==0){
+        //last byte
+        usb_process(DecodedData,data_index);
+        data_index=0;
+      }else{
+        //error
+        //reset
+        data_index=0;
+        zero_count=0;
+      }
+      
+    }else{
+      if(zero_count==0){
+    	DecodedData[data_index]=0x00;
+        zero_count=Buf[i];
+      }else{
+    	DecodedData[data_index]=Buf[i];
+      }
+      data_index++;
+    }
+    
+    
+  }
+  
   return (USBD_OK);
   /* USER CODE END 6 */
 }

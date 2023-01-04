@@ -1,0 +1,3 @@
+[submodule "CRSLib"]
+	path = CRSLib
+	url = https://github.com/chibarobotstuidonhk/CRSLib.git
