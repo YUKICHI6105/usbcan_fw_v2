@@ -1,11 +1,15 @@
+
+
+#include "main.h"
+#include "usbd_cdc_if.h"
+#include "usb_device.h"
+
 #include <CRSLib/Can/RM0365/include/can_manager.hpp>
 #include <CRSLib/Can/RM0365/include/filter_manager.hpp>
 #include <CRSLib/Can/RM0365/include/letterbox.hpp>
 #include <CRSLib/Can/RM0365/include/pillarbox.hpp>
 
-#include "main.h"
-#include "usbd_cdc_if.h"
-#include "usb_device.h"
+#include <led.h>
 
 using namespace CRSLib::IntegerTypes;
 using namespace CRSLib::Can;
@@ -57,21 +61,20 @@ void main_cpp()
         }
         switch(hUsbDeviceFS.dev_state){
         case USBD_STATE_DEFAULT:
-            HAL_GPIO_WritePin(GPIOB,LED_RED_Pin,GPIO_PIN_SET);
+            led_on(red);
             break;
         case USBD_STATE_ADDRESSED :
-            HAL_GPIO_WritePin(GPIOB,LED_YELLOW_Pin,GPIO_PIN_SET);
+            led_on(yellow);
             break;
         case USBD_STATE_SUSPENDED  :
-            HAL_GPIO_WritePin(GPIOB,LED_RED_Pin,GPIO_PIN_SET);
-            HAL_GPIO_WritePin(GPIOB,LED_YELLOW_Pin,GPIO_PIN_SET);
+            led_on(yellow);
             break;
         case USBD_STATE_CONFIGURED :
-            HAL_GPIO_WritePin(GPIOB,LED_CAN_Pin,GPIO_PIN_SET);
+            led_on(yellow);
             break;
         }
-        HAL_Delay(10);
-        HAL_GPIO_WritePin(GPIOB,LED_RED_Pin|LED_YELLOW_Pin|LED_CAN_Pin,GPIO_PIN_RESET);
+
+        led_process();
 
     //	 CDC_Transmit_FS(buffer,6);
     }

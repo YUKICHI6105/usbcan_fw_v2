@@ -1,3 +1,4 @@
+#include <stdint.h>
 
 void cobs_encode(const uint8_t data[], uint8_t return_data[], int data_size){
     int zero_index = data_size + 1;//this is return_data index
