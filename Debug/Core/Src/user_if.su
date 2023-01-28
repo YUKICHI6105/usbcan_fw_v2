@@ -1,3 +1,1 @@
-../Core/Inc/cobs.h:2:6:cobs_encode	32	static
-../Core/Inc/cobs.h:18:6:cobs_decode	32	static
-../Core/Src/user_if.c:12:6:HAL_CAN_RxFifo0MsgPendingCallback	80	static
+../Core/Src/user_if.c:12:6:HAL_CAN_RxFifo0MsgPendingCallback	64	static

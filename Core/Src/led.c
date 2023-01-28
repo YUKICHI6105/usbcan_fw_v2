@@ -1,8 +1,8 @@
+#include "main.h"
 #include "led.h"
 
-
 struct led_status{
-    uint16_t gpio;
+	GPIO_TypeDef * gpio;
     uint16_t pin;
     uint32_t before_tick;
     uint8_t is_high;
@@ -20,7 +20,7 @@ struct led_status led_list[] =
 
 void led_on(led name){
     //if the led is off.
-    if(led_list[name].is_high = 0){
+    if(led_list[name].is_high == 0){
         HAL_GPIO_WritePin(led_list[name].gpio,led_list[name].pin,GPIO_PIN_SET);
         led_list[name].before_tick = HAL_GetTick();
     }

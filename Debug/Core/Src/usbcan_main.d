@@ -1,8 +1,8 @@
-Core/Src/usbcan_main.o: ../Core/Src/usbcan_main.cpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/can_manager.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/CommonAmongMpu/include/utility.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/include/std_int.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/hal_can.hpp \
+Core/Src/usbcan_main.o: ../Core/Src/usbcan_main.cpp ../Core/Inc/main.h \
+ ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h \
+ ../Core/Inc/stm32f3xx_hal_conf.h \
+ ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h \
+ ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h \
  ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f3xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302xc.h \
  ../Drivers/CMSIS/Include/core_cm4.h \
@@ -11,10 +11,6 @@ Core/Src/usbcan_main.o: ../Core/Src/usbcan_main.cpp \
  ../Drivers/CMSIS/Include/cmsis_gcc.h \
  ../Drivers/CMSIS/Include/mpu_armv7.h \
  ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h \
- ../Core/Inc/stm32f3xx_hal_conf.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc_ex.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h \
@@ -33,16 +29,7 @@ Core/Src/usbcan_main.o: ../Core/Src/usbcan_main.cpp \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd_ex.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/pillarbox.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/letterbox.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/include/utility.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/utility.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_manager.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/include/bit_operate.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_feature.hpp \
- C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/Config/include/config.hpp \
- ../Core/Inc/main.h ../USB_DEVICE/App/usbd_cdc_if.h \
+ ../USB_DEVICE/App/usbd_cdc_if.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h \
@@ -51,11 +38,26 @@ Core/Src/usbcan_main.o: ../Core/Src/usbcan_main.cpp \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h \
  ../USB_DEVICE/App/usb_device.h \
- ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/can_manager.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/CommonAmongMpu/include/utility.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/include/std_int.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/hal_can.hpp:
+ ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/can_manager.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/CommonAmongMpu/include/utility.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/std_int.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/hal_can.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/pillarbox.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/letterbox.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/utility.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/utility.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_manager.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/bit_operate.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_feature.hpp \
+ C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/Config/include/config.hpp \
+ ../Core/Inc/led.h
+../Core/Inc/main.h:
+../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
+../Core/Inc/stm32f3xx_hal_conf.h:
+../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h:
+../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h:
 ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f3xx.h:
 ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302xc.h:
 ../Drivers/CMSIS/Include/core_cm4.h:
@@ -64,10 +66,6 @@ C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/incl
 ../Drivers/CMSIS/Include/cmsis_gcc.h:
 ../Drivers/CMSIS/Include/mpu_armv7.h:
 ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
-../Core/Inc/stm32f3xx_hal_conf.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc_ex.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h:
@@ -86,16 +84,6 @@ C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/incl
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd_ex.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/pillarbox.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/letterbox.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/include/utility.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/utility.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_manager.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/include/bit_operate.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_feature.hpp:
-C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/Config/include/config.hpp:
-../Core/Inc/main.h:
 ../USB_DEVICE/App/usbd_cdc_if.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:
@@ -106,3 +94,17 @@ C:/Users/taman/STM32CubeIDE/workspace_1.11.0/usbcan_fw_v2/CRSLib/Can/RM0365/Conf
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h:
 ../USB_DEVICE/App/usb_device.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/can_manager.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/CommonAmongMpu/include/utility.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/std_int.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/hal_can.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/pillarbox.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/letterbox.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/utility.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/utility.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_manager.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/bit_operate.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_feature.hpp:
+C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/Config/include/config.hpp:
+../Core/Inc/led.h:

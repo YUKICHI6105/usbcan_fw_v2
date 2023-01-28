@@ -90,18 +90,18 @@ int main(void)
   MX_USB_DEVICE_Init();
   MX_CAN_Init();
   /* USER CODE BEGIN 2 */
-//  main_cpp();
+  main_cpp();
   CAN_FilterTypeDef filter;
-  filter.FilterIdHigh         = 0;                        // フィルターID(上�?16ビッ�?)
-  filter.FilterIdLow          = 0;                        // フィルターID(下�?16ビッ�?)
-  filter.FilterMaskIdHigh     = 0;                        // フィルターマスク(上�?16ビッ�?)
-  filter.FilterMaskIdLow      = 0;                        // フィルターマスク(下�?16ビッ�?)
+  filter.FilterIdHigh         = 0;                        // フィルターID(上�?16ビッ?��?)
+  filter.FilterIdLow          = 0;                        // フィルターID(下�?16ビッ?��?)
+  filter.FilterMaskIdHigh     = 0;                        // フィルターマスク(上�?16ビッ?��?)
+  filter.FilterMaskIdLow      = 0;                        // フィルターマスク(下�?16ビッ?��?)
   filter.FilterScale          = CAN_FILTERSCALE_32BIT;    // フィルタースケール
   filter.FilterFIFOAssignment = CAN_FILTER_FIFO0;         // フィルターに割り当てるFIFO
   filter.FilterBank           = 0;                        // フィルターバンクNo
-  filter.FilterMode           = CAN_FILTERMODE_IDMASK;    // フィルターモー�?
+  filter.FilterMode           = CAN_FILTERMODE_IDMASK;    // フィルターモー?��?
   filter.SlaveStartFilterBank = 14;                       // スレーブCANの開始フィルターバンクNo
-  filter.FilterActivation     = ENABLE;                   // フィルター無効?��有効
+  filter.FilterActivation     = ENABLE;                   // フィルター無効??��?��有効
   HAL_CAN_ConfigFilter(&hcan, &filter);
 
 
