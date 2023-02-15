@@ -6,23 +6,23 @@
 
 extern CAN_HandleTypeDef hcan;
 
-void usb_to_can(uint8_t *usb_msg, uint8_t len);
+void usb_to_can(uint8_t usb_msg[], const uint8_t len);
 
 //it process all usb messages
-void usb_process(uint8_t *usb_msg, uint8_t len){
+void usb_process(uint8_t usb_msg[], const uint8_t len){
     // data structure
     /*
-    uint8_t command : if it is normal can frame, it is 0x00.
+   	uint8_t command & frame_type:
     ... : some data
     */
 
     //if you want to add new command, you can add it here
     //attention: it is called in interrupt, so it should be short
-    switch (usb_msg[0])
+    switch (usb_msg[0]>>4)
     {
     case 0x00://normal can frame
         {
-            usb_to_can(usb_msg+1, len-1);
+            usb_to_can(usb_msg, len);
         }
         break;
     case 0x01://establishment of communication
@@ -38,17 +38,16 @@ void usb_process(uint8_t *usb_msg, uint8_t len){
 
 
 //it process all can messages
-void can_process(CAN_RxHeaderTypeDef *RxHeader,uint8_t Data[]){
+//the Data is used for USB buffer. can_process set header infomation to Data[0~5].
+//It is a terrible code. Sorry for hard work to read the code.
+void can_process(const CAN_RxHeaderTypeDef *RxHeader,uint8_t Data[]){
     // data structure
     /*
-    uint8_t command : if it is normal can frame, it is 0x00.
+    uint8_t command & frame_type: (command: if it is normal can frame, it is 0x00.)<<4 | is_rtr << 2 | is_extended << 1 | is_error
     uint8_t id[4] : can id
-    uint8_t frame_type :  is_rtr << 2 | is_extended << 1 | is_error
     uint8_t dlc : data length
-    uint8_t data[8] : data
+    uint8_t data[8] : data (it is pre-writtten.)
     */
-
-    // Data[0] = 0x00;
 
     if(RxHeader->IDE == CAN_ID_STD){
         //standard id
@@ -58,7 +57,7 @@ void can_process(CAN_RxHeaderTypeDef *RxHeader,uint8_t Data[]){
         Data[4] = (RxHeader->StdId >> 0) & 0xFF;
         
         //is_extended not set
-        // Data[5] = 0x00;
+        // Data[0] = 0x00;
     }else{
         //extended id
         Data[1] = (RxHeader->ExtId >> 24) & 0xFF;
@@ -67,19 +66,19 @@ void can_process(CAN_RxHeaderTypeDef *RxHeader,uint8_t Data[]){
         Data[4] = (RxHeader->ExtId >> 0) & 0xFF;
 
         //is_extended set
-        Data[5] = 0x02; // 0x02 = 0b00000010
+        Data[0] = 0x02; // 0x02 = 0b00000010
     }
 
     //is_rtr
     if(RxHeader->RTR == CAN_RTR_REMOTE){
-        Data[5] |= 0x04; // 0x04 = 0b00000100
+        Data[0] |= 0x04; // 0x04 = 0b00000100
     }
 
     //is_error
     //? 
 
     //dlc
-    Data[6] = RxHeader->DLC;
+    Data[5] = RxHeader->DLC;
 
 
     //encode data
@@ -105,27 +104,26 @@ void can_process(CAN_RxHeaderTypeDef *RxHeader,uint8_t Data[]){
 CAN_TxHeaderTypeDef TxHeader;
 uint32_t TxMailbox;
 //it process usb messages to normal can messages
-void usb_to_can(uint8_t *usb_msg, uint8_t len){
+void usb_to_can(uint8_t usb_msg[], const uint8_t len){
     // data structure
     /*
-    (uint8_t command : it is 0x00. deleted)
+    uint8_t command & frame_type: (command: if it is normal can frame, it is 0x00.)<<4 | is_rtr << 2 | is_extended << 1 | is_error
     uint8_t id[4] : can id
-    uint8_t frame_type :  is_rtr << 2 | is_extended << 1 | is_error
     uint8_t dlc : data length
     uint8_t data[8] : data
     */
-   if(usb_msg[4] & 0x02){
+   if(usb_msg[0] & 0x02){
        //extended id
        TxHeader.IDE = CAN_ID_EXT;
-       TxHeader.ExtId = (usb_msg[0] << 24) | (usb_msg[1] << 16) | (usb_msg[2] << 8) | (usb_msg[3] << 0);
+       TxHeader.ExtId = (usb_msg[1] << 24) | (usb_msg[2] << 16) | (usb_msg[3] << 8) | (usb_msg[4] << 0);
     }else{
         //standard id
         TxHeader.IDE = CAN_ID_STD;
-        TxHeader.StdId = (usb_msg[0] << 24) | (usb_msg[1] << 16) | (usb_msg[2] << 8) | (usb_msg[3] << 0);
+        TxHeader.StdId = (usb_msg[1] << 24) | (usb_msg[2] << 16) | (usb_msg[3] << 8) | (usb_msg[4] << 0);
     }
 
     //is_rtr
-    if(usb_msg[4] & 0x04){
+    if(usb_msg[0] & 0x04){
         TxHeader.RTR = CAN_RTR_REMOTE;
     }else{
         TxHeader.RTR = CAN_RTR_DATA;
