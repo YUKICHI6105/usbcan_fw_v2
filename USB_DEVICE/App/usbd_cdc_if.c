@@ -34,7 +34,8 @@
 /* Private variables ---------------------------------------------------------*/
 uint8_t DecodedData[64];
 uint8_t data_index = 0;
-uint8_t zero_count = 0;
+uint8_t zero_count = 10;
+uint8_t is_first = 0;
 
 /* USER CODE END PV */
 
@@ -297,23 +298,26 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
   //COBS decode
-  for(int i=0;i<*Len;i++)
+  for(uint32_t i=0;i<*Len;i++)
   {
-    zero_count--;
-
-    if(Buf[i]==0x00){
+	zero_count--;
+    if(Buf[i]=='\0'){
+      is_first = 1;
       if(zero_count==0){
-        //last byte
-        usb_process(DecodedData,data_index);
-        data_index=0;
+    	//last byte
+    	usb_process(DecodedData,data_index);
       }else{
         //error
         //reset
-        data_index=0;
         zero_count=0;
       }
-      
+      data_index=0;
     }else{
+      if(is_first==1){
+    	  zero_count = Buf[i];
+    	  is_first = 0;
+    	  continue;
+      }
       if(zero_count==0){
     	DecodedData[data_index]=0x00;
         zero_count=Buf[i];
@@ -322,8 +326,6 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
       }
       data_index++;
     }
-    
-    
   }
   
   return (USBD_OK);

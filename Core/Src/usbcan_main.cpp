@@ -48,9 +48,10 @@ void main_cpp()
     HAL_CAN_Start(&hcan);
 //    RxFrame rx_frame{};
     uint8_t state =23;
+    uint8_t debug_state = 0;
     while(true)
     {
-    	if(hUsbDeviceFS.dev_state !=state){
+    	if(debug_state==0&&hUsbDeviceFS.dev_state !=state){
     		state = hUsbDeviceFS.dev_state;
     		HAL_GPIO_WritePin(LED_GREEN_GPIO_Port,
     				LED_GREEN_Pin|
@@ -68,12 +69,13 @@ void main_cpp()
     			HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port,LED_YELLOW_Pin,GPIO_PIN_SET);
     			break;
     		case USBD_STATE_CONFIGURED :
-    			HAL_GPIO_WritePin(LED_GREEN_GPIO_Port,LED_GREEN_Pin,GPIO_PIN_SET);
+    			led_on(green);
+    			debug_state =1;
     			break;
     		}
     	}
 
-
+        led_process();
 
 
 //        if(!can_manager.letterbox0.empty())
@@ -84,22 +86,7 @@ void main_cpp()
 //
 //            if(can_manager.pillarbox.not_full()) can_manager.pillarbox.post(0x100, tx_frame);
 //        }
-//        switch(hUsbDeviceFS.dev_state){
-//        case USBD_STATE_DEFAULT:
-//            led_on(red);
-//            break;
-//        case USBD_STATE_ADDRESSED :
-//            led_on(yellow);
-//            break;
-//        case USBD_STATE_SUSPENDED  :
-//            led_on(yellow);
-//            break;
-//        case USBD_STATE_CONFIGURED :
-//            led_on(yellow);
-//            break;
-//        }
-//
-//        led_process();
+
 
     }
 }

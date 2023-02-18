@@ -3,6 +3,9 @@
 #include "cobs.h"
 #include "usbd_cdc_if.h"
 #include "stm32f3xx_hal.h"
+#include "main.h"
+
+#include "led.h"
 
 extern CAN_HandleTypeDef hcan;
 
@@ -27,6 +30,7 @@ void usb_process(uint8_t usb_msg[], const uint8_t len){
         break;
     case 0x01://establishment of communication
         {
+        	led_on(red);
             uint8_t HelloUSBCAN_encode[] = {0x0b,'H','e','l','l','o','U','S','B','C','A','N',0x00};
             CDC_Transmit_FS(HelloUSBCAN_encode,11+2);
         }
@@ -134,10 +138,11 @@ void usb_to_can(uint8_t usb_msg[], const uint8_t len){
 
     //dlc
     TxHeader.DLC = usb_msg[5];
-    
+    led_on(green);
     if(0 < HAL_CAN_GetTxMailboxesFreeLevel(&hcan)){
     	HAL_CAN_AddTxMessage(&hcan, &TxHeader, usb_msg+6, &TxMailbox);
     }
+    if(hcan.ErrorCode !=HAL_CAN_ERROR_NONE)led_on(yellow);
 
 
 }
