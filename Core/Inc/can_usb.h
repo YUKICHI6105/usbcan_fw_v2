@@ -1,7 +1,9 @@
 #include <main.h>
 
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 //it process all usb messages
@@ -13,3 +15,7 @@ void can_process(const CAN_RxHeaderTypeDef *RxHeader,uint8_t Data[]);
 
 //void seliarize_canheader(const CAN_RxHeaderTypeDef *RxHeader,uint8_t Data[]);
 //void send_to_usb(uint8_t RawData[],uint8_t len);
+
+#ifdef __cplusplus
+}
+#endif

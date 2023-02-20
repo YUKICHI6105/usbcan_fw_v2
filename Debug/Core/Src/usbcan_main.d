@@ -39,20 +39,7 @@ Core/Src/usbcan_main.o: ../Core/Src/usbcan_main.cpp ../Core/Inc/main.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h \
  ../USB_DEVICE/App/usb_device.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/can_manager.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/CommonAmongMpu/include/utility.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/std_int.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/hal_can.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/pillarbox.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/letterbox.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/utility.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/utility.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_manager.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/bit_operate.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_feature.hpp \
- C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/Config/include/config.hpp \
- ../Core/Inc/led.h
+ ../Core/Inc/led.h ../Core/Inc/can_usb.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
 ../Core/Inc/stm32f3xx_hal_conf.h:
@@ -94,17 +81,5 @@ Core/Src/usbcan_main.o: ../Core/Src/usbcan_main.cpp ../Core/Inc/main.h \
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h:
 ../USB_DEVICE/App/usb_device.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/can_manager.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/CommonAmongMpu/include/utility.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/std_int.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/hal_can.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/pillarbox.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/letterbox.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/utility.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/utility.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_manager.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/include/bit_operate.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/include/filter_feature.hpp:
-C:/Users/taman/repo/usbcan_fw_v2/CRSLib/Can/RM0365/Config/include/config.hpp:
 ../Core/Inc/led.h:
+../Core/Inc/can_usb.h:

@@ -30,7 +30,6 @@ void usb_process(uint8_t usb_msg[], const uint8_t len){
         break;
     case 0x01://establishment of communication
         {
-        	led_on(red);
             uint8_t HelloUSBCAN_encode[] = {0x0b,'H','e','l','l','o','U','S','B','C','A','N',0x00};
             CDC_Transmit_FS(HelloUSBCAN_encode,11+2);
         }
@@ -56,7 +55,6 @@ void can_process(const CAN_RxHeaderTypeDef *RxHeader,uint8_t Data[]){
     if(RxHeader->IDE == CAN_ID_STD){
         //standard id
         Data[1] = (RxHeader->StdId >> 24) & 0xFF;
-        Data[2] = (RxHeader->StdId >> 16) & 0xFF;
         Data[3] = (RxHeader->StdId >> 8) & 0xFF;
         Data[4] = (RxHeader->StdId >> 0) & 0xFF;
         
@@ -136,13 +134,23 @@ void usb_to_can(uint8_t usb_msg[], const uint8_t len){
     //is_error
     //?
 
+    TxHeader.TransmitGlobalTime = DISABLE;
     //dlc
     TxHeader.DLC = usb_msg[5];
-    led_on(green);
+
+//	TxHeader.DLC = 8;
+//	TxHeader.RTR = CAN_RTR_DATA;
+//	TxHeader.IDE = CAN_ID_STD;
+//	TxHeader.StdId = 0x00;
+//	TxHeader.TransmitGlobalTime = DISABLE;
+//	uint8_t data[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+
     if(0 < HAL_CAN_GetTxMailboxesFreeLevel(&hcan)){
+    	led_on(green);
+//    	HAL_CAN_AddTxMessage(&hcan, &TxHeader, data, &TxMailbox);
+
     	HAL_CAN_AddTxMessage(&hcan, &TxHeader, usb_msg+6, &TxMailbox);
     }
-    if(hcan.ErrorCode !=HAL_CAN_ERROR_NONE)led_on(yellow);
 
 
 }
