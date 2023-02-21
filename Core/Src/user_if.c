@@ -13,8 +13,14 @@
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
-
-    uint8_t Data[15];
+    // data structure
+    /*
+    uint8_t command & frame_type: (command: if it is normal can frame, it is 0x00.)<<4 | is_rtr << 2 | is_extended << 1 | is_error
+    uint8_t id[4] : can id
+    uint8_t dlc : data length
+    uint8_t data[8] : data (it is pre-writtten.)
+    */
+    uint8_t Data[14];
     CAN_RxHeaderTypeDef RxHeader;
     //the Data is used for USB buffer. can_process set header infomation to Data[0~5].
     //It is a terrible code. Sorry for hard work to read the code.
