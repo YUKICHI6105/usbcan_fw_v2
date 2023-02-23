@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-void cobs_encode(const uint8_t data[], uint8_t return_data[], int data_size){
+inline void cobs_encode(const uint8_t data[], uint8_t return_data[], int data_size){
     int zero_index = data_size + 1;//this is return_data index
     return_data[zero_index] = 0x00;
     for(int i = data_size; i >0; i--){
@@ -16,7 +16,7 @@ void cobs_encode(const uint8_t data[], uint8_t return_data[], int data_size){
 //Consistent Overhead Byte Suffiing
 //data_size is data array size
 //return data array size should be data_size - 2
-void cobs_decode(const uint8_t data[], uint8_t return_data[], int data_size){
+inline void cobs_decode(const uint8_t data[], uint8_t return_data[], int data_size){
     uint8_t zero_index = data[0];
     //i is data index
     //and lastdata (data_size - 1)-1 is 0x00
