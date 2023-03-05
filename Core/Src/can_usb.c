@@ -30,7 +30,8 @@ void usb_process(uint8_t usb_msg[], const uint8_t len){
         break;
     case 0x01://establishment of communication
         {
-            uint8_t HelloUSBCAN_encode[] = {0x0b,'H','e','l','l','o','U','S','B','C','A','N',0x00};
+            //encoded data
+            const uint8_t HelloUSBCAN_encode[] = {0x0d,0x01<<4,'H','e','l','l','o','U','S','B','C','A','N',0x00};
             CDC_Transmit_FS(HelloUSBCAN_encode,11+2);
         }
     default:
