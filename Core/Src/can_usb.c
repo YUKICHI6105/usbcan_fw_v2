@@ -31,8 +31,8 @@ void usb_process(uint8_t usb_msg[], const uint8_t len){
     case 0x01://establishment of communication
         {
             //encoded data
-            const uint8_t HelloUSBCAN_encode[] = {0x0d,0x01<<4,'H','e','l','l','o','U','S','B','C','A','N',0x00};
-            CDC_Transmit_FS(HelloUSBCAN_encode,11+2);
+            static uint8_t HelloSLCAN_encode[] = {0x0c,0x01<<4,'H','e','l','l','o','S','L','C','A','N',0x00};
+            CDC_Transmit_FS(HelloSLCAN_encode,11+2);
         }
     default:
         break;
@@ -148,7 +148,7 @@ void usb_to_can(uint8_t usb_msg[], const uint8_t len){
 //	uint8_t data[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
     if(0 < HAL_CAN_GetTxMailboxesFreeLevel(&hcan)){
-    	led_on(green);
+    	led_on(can);
 //    	HAL_CAN_AddTxMessage(&hcan, &TxHeader, data, &TxMailbox);
 
     	HAL_CAN_AddTxMessage(&hcan, &TxHeader, usb_msg+6, &TxMailbox);
