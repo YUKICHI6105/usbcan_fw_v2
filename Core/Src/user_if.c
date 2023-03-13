@@ -34,16 +34,16 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
 uint8_t send_buf[4]={0};
 
-void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan){
-	led_on(can);
-	if(hcan->ErrorCode == HAL_CAN_ERROR_NONE )led_on(yellow);
-	if(hcan->ErrorCode == HAL_CAN_ERROR_BD)led_on(red);
-	uint32_t errorcode = hcan->ErrorCode;
-	uint32_t MSR = hcan->Instance->MSR;
-//	memcpy(send_buf,&errorcode,4);
-//	CDC_Transmit_FS(send_buf, 4);
-//	memcpy(send_buf,&MSR,4);
-//	CDC_Transmit_FS(send_buf, 4);
-
-}
+//void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan){
+//	led_on(can);
+//	if(hcan->ErrorCode == HAL_CAN_ERROR_NONE )led_on(yellow);
+//	if(hcan->ErrorCode == HAL_CAN_ERROR_BD)led_on(red);
+//	uint32_t errorcode = hcan->ErrorCode;
+//	uint32_t MSR = hcan->Instance->MSR;
+////	memcpy(send_buf,&errorcode,4);
+////	CDC_Transmit_FS(send_buf, 4);
+////	memcpy(send_buf,&MSR,4);
+////	CDC_Transmit_FS(send_buf, 4);
+//
+//}
 

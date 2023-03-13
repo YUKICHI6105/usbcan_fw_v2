@@ -1,5 +1,3 @@
-../Core/Inc/cobs.h:3:6:cobs_encode	4	static
-../Core/Inc/cobs.h:19:6:cobs_decode	8	static
-../Core/Src/can_usb.c:46:6:can_process	24	static
-../Core/Src/can_usb.c:110:6:usb_to_can	8	static
-../Core/Src/can_usb.c:15:6:usb_process	24	static
+../Core/Src/can_usb.c:47:6:can_process	24	static
+../Core/Src/can_usb.c:111:6:usb_to_can	8	static
+../Core/Src/can_usb.c:15:6:usb_process	8	static
