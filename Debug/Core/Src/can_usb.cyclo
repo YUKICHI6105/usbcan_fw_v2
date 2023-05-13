@@ -1,3 +1,3 @@
-can_usb.c:47:6:can_process	5
-can_usb.c:111:6:usb_to_can	3
+can_usb.c:46:6:can_process	6
+can_usb.c:110:6:usb_to_can	3
 can_usb.c:15:6:usb_process	3

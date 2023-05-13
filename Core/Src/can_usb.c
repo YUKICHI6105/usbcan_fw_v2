@@ -11,7 +11,7 @@ extern CAN_HandleTypeDef hcan;
 
 void usb_to_can(uint8_t usb_msg[], const uint8_t len);
 
-// it process all usb messages
+// it process  all usb messages
 void usb_process(uint8_t usb_msg[], const uint8_t len)
 {
     // data structure
@@ -41,7 +41,7 @@ void usb_process(uint8_t usb_msg[], const uint8_t len)
 }
 
 // it process all can messages
-// the Data is used for USB buffer. can_process set header infomation to Data[0~5].
+// the Data is used for USB buffer. can_process set header information to Data[0~5].
 // It is a terrible code. Sorry for hard work to read the code.
 void can_process(const CAN_RxHeaderTypeDef *RxHeader, uint8_t Data[])
 {

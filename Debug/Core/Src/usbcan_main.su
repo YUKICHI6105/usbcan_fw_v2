@@ -1,1 +1,1 @@
-../Core/Src/usbcan_main.cpp:24:6:void main_cpp()	16	static
+../Core/Src/usbcan_main.cpp:10:6:void main_cpp()	16	static

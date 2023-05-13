@@ -6,6 +6,10 @@ COBSを利用したUSBCAN用のコードです。以下のプログラムで利�
 [serial_tester](https://github.com/IndigoCarmine/serial_tester) : Python Code for test  
 [can_plugins_porting](https://github.com/IndigoCarmine/can_plugins2_porting) : ROS Package (porting from ROS2 Package)  
 
+#Commandの種類
+0x00:normal can frame
+0x01:establishment of communication
+0x02:EMS Change Nortice
 
 # LEDの点灯パターンについて
 USBCANには２種類の状態があります。
