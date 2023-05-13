@@ -23,8 +23,8 @@ USBD_STATE_ADDRESSED : 黄色LEDが点灯
 USBD_STATE_SUSPENDED : 赤色LEDと黄色LEDが点灯
 USBD_STATE_CONFIGURED : 緑色LEDが点灯 -> 状態2へ即座に移行
 
-## 接続完了後
-USBCANは接続完了後は通信状態とCANの状態に応じてLEDの点灯パターンが変わります。
+## 接続後
+USBCANは接続後は通信状態とCANの状態に応じてLEDの点灯パターンが変わります。
 USBへの送信完了：緑色LEDが点灯
 CANへの送信完了：CANLEDが点灯
 HAL_CAN_ERROR_BD（Bit Dominant Error）：赤色LEDが点灯
