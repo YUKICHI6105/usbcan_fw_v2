@@ -79,8 +79,8 @@ all: main-build
 main-build: usbcan_fw_v2.elf secondary-outputs
 
 # Tool invocations
-usbcan_fw_v2.elf usbcan_fw_v2.map: $(OBJS) $(USER_OBJS) C:\Users\taman\repo\usbcan_fw_v2\STM32F302CBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "usbcan_fw_v2.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\taman\repo\usbcan_fw_v2\STM32F302CBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="usbcan_fw_v2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+usbcan_fw_v2.elf usbcan_fw_v2.map: $(OBJS) $(USER_OBJS) C:\Users\kouza\git\usbcan_fw_v2\STM32F302CBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "usbcan_fw_v2.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\kouza\git\usbcan_fw_v2\STM32F302CBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="usbcan_fw_v2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

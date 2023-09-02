@@ -6,10 +6,13 @@
 #include "main.h"
 
 #include "led.h"
+#include "MotorCtrl.hpp"
 
 extern CAN_HandleTypeDef hcan;
+extern MotorCtrl motor;
 
 void usb_to_can(uint8_t usb_msg[], const uint8_t len);
+void robomaster(uint8_t usb_msg[], const uint8_t len);
 
 // it process  all usb messages
 void usb_process(uint8_t usb_msg[], const uint8_t len)
@@ -34,6 +37,10 @@ void usb_process(uint8_t usb_msg[], const uint8_t len)
         // encoded data
         static uint8_t HelloSLCAN_encoded[] = {0x0c, 0x01 << 4, 'H', 'e', 'l', 'l', 'o', 'S', 'L', 'C', 'A', 'N', 0x00};
         CDC_Transmit_FS(HelloSLCAN_encoded, 11 + 2);
+    }
+    case 0x02: //robomaster_set_parameter
+    {
+    	robomaster(usb_msg, len);
     }
     default:
         break;
@@ -151,4 +158,32 @@ void usb_to_can(uint8_t usb_msg[], const uint8_t len)
         led_on(can);
         HAL_CAN_AddTxMessage(&hcan, &TxHeader, usb_msg + 6, &TxMailbox);
     }
+}
+
+void robomaster(uint8_t usb_msg[], const uint8_t len){
+	// data structure
+	/*
+	uint8_t command & prosess_id: (command: if it is normal can frame,
+	uint8_t data[8or9or32] : data
+    */
+	switch (usb_msg[0] & 0x0f){
+	case 0x00:{
+		motor.setMode(usb_msg);
+		break;
+	}case 0x01:{
+		motor.setTemp(usb_msg);
+		break;
+	}case 0x02:{
+		motor.setTarget(usb_msg);
+		break;
+	}case 0x03:{
+		motor.setKp(usb_msg);
+		break;
+	}case 0x04:{
+		motor.setKi(usb_msg);
+		break;
+	}case 0x05:{
+		motor.setKd(usb_msg);
+	}
+	}
 }

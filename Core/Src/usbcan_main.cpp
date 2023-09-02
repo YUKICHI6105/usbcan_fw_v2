@@ -3,13 +3,34 @@
 #include "usb_device.h"
 #include "led.h"
 #include "can_usb.h"
+#include "MotorCtrl.hpp"
 
-extern CAN_HandleTypeDef hcan;
-extern USBD_HandleTypeDef hUsbDeviceFS;
+MotorCtrl motor;
+
+extern"C"{
+	extern TIM_HandleTypeDef htim3;
+	extern CAN_HandleTypeDef hcan;
+	extern CAN_TxHeaderTypeDef TxHeader;
+	extern USBD_HandleTypeDef hUsbDeviceFS;
+}
+
+CAN_TxHeaderTypeDef TxHeader1;
+CAN_TxHeaderTypeDef TxHeader2;
 
 void main_cpp()
 {
 	HAL_CAN_Start(&hcan);
+
+	TxHeader1.IDE = CAN_ID_STD;
+	TxHeader1.RTR = CAN_RTR_DATA;
+	TxHeader1.StdId = 0x200;
+	TxHeader1.DLC = 8;
+	TxHeader1.TransmitGlobalTime = DISABLE;
+	TxHeader2.IDE = CAN_ID_STD;
+	TxHeader2.RTR = CAN_RTR_DATA;
+	TxHeader2.StdId = 0x1ff;
+	TxHeader2.DLC = 8;
+	TxHeader2.TransmitGlobalTime = DISABLE;
 
 	uint8_t debug_state = 0;
 	while (true)

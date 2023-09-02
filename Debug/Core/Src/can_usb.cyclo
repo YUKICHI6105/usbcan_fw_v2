@@ -1,3 +1,11 @@
-can_usb.c:46:6:can_process	6
-can_usb.c:110:6:usb_to_can	3
-can_usb.c:15:6:usb_process	3
+cobs.h:8:17:void cobs_encode(const uint8_t*, uint8_t*, int)	3
+MotorCtrl.hpp:74:13:void MotorCtrl::setMode(uint8_t*)	8
+MotorCtrl.hpp:93:13:void MotorCtrl::setTemp(uint8_t*)	2
+MotorCtrl.hpp:99:13:void MotorCtrl::setTarget(uint8_t*)	2
+MotorCtrl.hpp:106:13:void MotorCtrl::setKp(uint8_t*)	2
+MotorCtrl.hpp:113:13:void MotorCtrl::setKi(uint8_t*)	2
+MotorCtrl.hpp:120:13:void MotorCtrl::setKd(uint8_t*)	2
+can_usb.cpp:18:6:void usb_process(uint8_t*, uint8_t)	5
+can_usb.cpp:53:6:void can_process(const CAN_RxHeaderTypeDef*, uint8_t*)	4
+can_usb.cpp:117:6:void usb_to_can(uint8_t*, uint8_t)	4
+can_usb.cpp:163:6:void robomaster(uint8_t*, uint8_t)	7
