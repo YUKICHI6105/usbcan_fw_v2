@@ -515,15 +515,15 @@ void usb_process(uint8_t usb_msg[], const uint8_t len)
  800048e:	781b      	ldrb	r3, [r3, #0]
  8000490:	091b      	lsrs	r3, r3, #4
  8000492:	b2db      	uxtb	r3, r3
- 8000494:	2b02      	cmp	r3, #2
+ 8000494:	2b03      	cmp	r3, #3
  8000496:	d010      	beq.n	80004ba <usb_process+0x3a>
- 8000498:	2b02      	cmp	r3, #2
+ 8000498:	2b03      	cmp	r3, #3
  800049a:	dc13      	bgt.n	80004c4 <usb_process+0x44>
  800049c:	2b00      	cmp	r3, #0
  800049e:	d002      	beq.n	80004a6 <usb_process+0x26>
  80004a0:	2b01      	cmp	r3, #1
  80004a2:	d006      	beq.n	80004b2 <usb_process+0x32>
-    case 0x02: //robomaster_set_parameter
+    case 0x03: //robomaster_set_parameter
     {
     	robomaster(usb_msg, len);
     }
