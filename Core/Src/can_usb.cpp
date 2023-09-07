@@ -1,4 +1,3 @@
-
 #include "can_usb.h"
 #include "cobs.h"
 #include "usbd_cdc_if.h"
@@ -99,7 +98,7 @@ void can_process(const CAN_RxHeaderTypeDef *RxHeader, uint8_t Data[])
     uint8_t encoded_data[14 + 2];
 
     cobs_encode(Data, encoded_data, 14);
-
+    led_on(green);
     if (CDC_Transmit_FS(encoded_data, 14 + 2) == USBD_OK)
     {
         led_on(green);

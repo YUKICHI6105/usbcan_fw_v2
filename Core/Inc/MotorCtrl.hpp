@@ -18,24 +18,25 @@ enum class Mode{
 };
 
 struct MotorParam{
-	Mode mode[8];
-	float gool[8];//PID処理後の操作量
-	float target[8];//目標値
-	float e_pre[8];
-	float mechanical_angle[8];//機械角
-	float velocity[8];//rpm->rad/s
-	float current[8];
-	uint8_t temp[8];
-	uint8_t limitTemp[8];
-	float Kp[8];
-	float Ki[8];
-	float Kd[8];
+	Mode mode[8] = {Mode::dis,Mode::dis,Mode::dis,Mode::dis,Mode::dis,Mode::dis,Mode::dis,Mode::dis};
+	float gool[8] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};//PID処理後の操作量
+	float target[8] = {3.14,0.0,0.01,0.0,0.0,0.0,0.0,0.0};//目標値
+	float e_pre[8] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+	float mechanical_angle[8] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};//機械角
+	float velocity[8] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};//rpm->rad/s
+	float current[8] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+	uint8_t temp[8] = {0,0,0,0,0,0,0,0};
+	uint8_t limitTemp[8] = {50,50,50,50,50,50,50,50};
+	float Kp[8] = {0.1,0.0,0.05f,0.0,0.0,0.0,0.0,0.0};
+	float Ki[8] = {0.0,0.0,0.0f,0.0,0.0,0.0,0.0,0.0};
+	float Kd[8] = {0.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
 };
 
 class MotorCtrl{
 private:
 	MotorParam param;
-	uint8_t diag = 0;
+	float e = 0.0;
+	uint16_t vel = 0;
 public:
 	bool update(uint32_t ReceiveID,uint8_t receiveData[8]);
 	void setMode(uint8_t usb_msg[]);
@@ -50,8 +51,20 @@ public:
 	void transmit2();
 	void ems();
 	void reset();
+	uint8_t diag = 1;
+	float changeVel(uint16_t data);
 };
 
+inline float MotorCtrl::changeVel(uint16_t data){
+	float vel1 = 0.0;
+	if(data < 0x8000){
+		vel1 = data*3.141592/60.0;
+	}else{
+		data =~ data;
+		vel1 = -1*data*3.141592/60.0;
+	}
+	return vel1;
+}
 
 
 inline bool MotorCtrl::update(uint32_t ReceiveID,uint8_t receiveData[8]){
@@ -59,14 +72,15 @@ inline bool MotorCtrl::update(uint32_t ReceiveID,uint8_t receiveData[8]){
 	MotorCtrl::param.mechanical_angle[ReceiveID-0x201]
 		= static_cast<float>((static_cast<uint16_t>(receiveData[0]) << 8) | receiveData[1])*360/8191;
 	MotorCtrl::param.velocity[ReceiveID-0x201]
-		= static_cast<float>((static_cast<uint16_t>(receiveData[2]) << 8) | receiveData[3])*3.1415/60.0;
+		= changeVel((static_cast<uint16_t>(receiveData[2]) << 8) | receiveData[3]);
 	MotorCtrl::param.current[ReceiveID-0x201]
 		= static_cast<float>((static_cast<uint16_t>(receiveData[4]) << 8) | receiveData[5]);
 	MotorCtrl::param.temp[ReceiveID-0x201] = receiveData[6];
+	//vel = ((static_cast<uint16_t>(receiveData[2]) << 8) | receiveData[3]);
 	if(param.mode[ReceiveID-0x201]==Mode::vel){
-		float e = param.target - param.velocity;
+		e = param.target[ReceiveID-0x201] - param.velocity[ReceiveID-0x201];
 		param.gool[ReceiveID-0x201] = param.gool[ReceiveID-0x201]+param.Kp[ReceiveID-0x201]*e+param.Ki[ReceiveID-0x201]*(e+param.e_pre[ReceiveID-0x201])*0.001/2+param.Kd[ReceiveID-0x201]*(e-param.e_pre[ReceiveID-0x201])/0.001;
-		param.e_pre[ReceiveID-0x201]=e;
+		param.e_pre[ReceiveID-0x201] = e;
 	}
 	return true;
 }
@@ -98,30 +112,28 @@ inline void MotorCtrl::setTemp(uint8_t usb_msg[]){
 
 inline void MotorCtrl::setTarget(uint8_t usb_msg[]){
 	for(int i =0;i<8;i++){
-		uint32_t buf = (usb_msg[4*i] << 24) | (usb_msg[4*i+1] << 16) | (usb_msg[4*i+2] << 8) | (usb_msg[4*i+3] << 0);
+		uint32_t buf = (usb_msg[4*i+1] << 24) | (usb_msg[4*i+2] << 16) | (usb_msg[4*i+3] << 8) | (usb_msg[4*i+4] << 0);
 		std::memcpy(&param.target[i],&buf,1);
 	}
 }
 
 inline void MotorCtrl::setKp(uint8_t usb_msg[]){
 	for(int i =0;i<8;i++){
-		uint32_t buf = (usb_msg[4*i] << 24) | (usb_msg[4*i+1] << 16) | (usb_msg[4*i+2] << 8) | (usb_msg[4*i+3] << 0);
+		uint32_t buf = (usb_msg[4*i+1] << 24) | (usb_msg[4*i+2] << 16) | (usb_msg[4*i+3] << 8) | (usb_msg[4*i+4] << 0);
 		std::memcpy(&param.Kp[i],&buf,1);
 	}
 }
 
 inline void MotorCtrl::setKi(uint8_t usb_msg[]){
 	for(int i =0;i<8;i++){
-		uint32_t buf = (usb_msg[4*i] << 24) | (usb_msg[4*i+1] << 16) | (usb_msg[4*i+2] << 8) | (usb_msg[4*i+3] << 0);
+		uint32_t buf = (usb_msg[4*i+1] << 24) | (usb_msg[4*i+2] << 16) | (usb_msg[4*i+3] << 8) | (usb_msg[4*i+4] << 0);
 		std::memcpy(&param.Ki[i],&buf,1);
 	}
 }
 
 inline void MotorCtrl::setKd(uint8_t usb_msg[]){
 	for(int i =0;i<8;i++){
-		uint32_t buf = (usb_msg[4*i] << 24) | (usb_msg[4*i+1] << 16) | (usb_msg[4*i+2] << 8) | (usb_msg[4*i+3] << 0);
+		uint32_t buf = (usb_msg[4*i+1] << 24) | (usb_msg[4*i+2] << 16) | (usb_msg[4*i+3] << 8) | (usb_msg[4*i+4] << 0);
 		std::memcpy(&param.Kp[i],&buf,1);
 	}
 }
-
-

@@ -19,8 +19,6 @@ CAN_TxHeaderTypeDef TxHeader2;
 
 void main_cpp()
 {
-	HAL_CAN_Start(&hcan);
-
 	TxHeader1.IDE = CAN_ID_STD;
 	TxHeader1.RTR = CAN_RTR_DATA;
 	TxHeader1.StdId = 0x200;
@@ -31,6 +29,9 @@ void main_cpp()
 	TxHeader2.StdId = 0x1ff;
 	TxHeader2.DLC = 8;
 	TxHeader2.TransmitGlobalTime = DISABLE;
+
+	HAL_CAN_Start(&hcan);
+	HAL_TIM_Base_Start_IT(&htim3);
 
 	uint8_t debug_state = 0;
 	while (true)

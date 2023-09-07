@@ -18,7 +18,6 @@ extern CAN_TxHeaderTypeDef TxHeader1;
 extern CAN_TxHeaderTypeDef TxHeader2;
 extern uint32_t TxMailbox;
 extern CAN_HandleTypeDef hcan;
-extern TIM_HandleTypeDef htim3;
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
@@ -49,19 +48,42 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		led_on(red);
 		if(HAL_GPIO_ReadPin(EMS_GPIO_Port, EMS_Pin)){
 	        static uint8_t HelloSLCAN_encoded[] = {0x03, 0x02 << 4,'H', 0x00};
-	        CDC_Transmit_FS(HelloSLCAN_encoded, 2 + 2);
+	        //CDC_Transmit_FS(HelloSLCAN_encoded, 2 + 2);
 		}else{
 	        static uint8_t HelloSLCAN_encoded[] = {0x03, 0x02 << 4,'L', 0x00};
-	        CDC_Transmit_FS(HelloSLCAN_encoded, 2 + 2);
+	        //CDC_Transmit_FS(HelloSLCAN_encoded, 2 + 2);
 		}
 	}
 }
 
+uint16_t changeValue(float target){
+	uint16_t value;
+	if(target < 0.0){
+		target = -target;
+		if(target < 20.0){
+			value = target/20*16384;
+			value =~ value;
+		}else{
+			value = 16384;
+			value =~ value;
+		}
+	}else{
+		if(target < 20.0){
+			value = target/20*16384;
+		}else{
+			value = 16384;
+		}
+	}
+	return value;
+}
+
 void MotorCtrl::transmit1(){
 	for(int i=0;i<4;i++){
-			value1[2*i] = static_cast<uint8_t>(static_cast<uint16_t>(param.gool[i]) >> 8);
-			value1[2*i+1] = static_cast<uint8_t>(static_cast<uint16_t>(param.gool[i]) & 0xFF);
+		if(motor.param.temp[i] < motor.param.limitTemp[i]){
+			value1[2*i] = static_cast<uint8_t>(changeValue(param.gool[i]) >> 8);
+			value1[2*i+1] = static_cast<uint8_t>(changeValue(param.gool[i]) & 0xFF);
 		}
+	}
 	if (0 < HAL_CAN_GetTxMailboxesFreeLevel(&hcan))
 	    {
 	        led_on(can);
@@ -71,18 +93,18 @@ void MotorCtrl::transmit1(){
 
 void MotorCtrl::transmit2(){
 	for(int i=4;i<8;i++){
-			value1[2*i] = static_cast<uint8_t>(static_cast<uint16_t>(param.gool[i]) >> 8);
-			value1[2*i+1] = static_cast<uint8_t>(static_cast<uint16_t>(param.gool[i]) & 0xFF);
+			value2[2*(i-4)] = static_cast<uint8_t>(changeValue(param.gool[i]) >> 8);
+			value2[2*(i-4)+1] = static_cast<uint8_t>(changeValue(param.gool[i]) & 0xFF);
 		}
 	if (0 < HAL_CAN_GetTxMailboxesFreeLevel(&hcan))
 	    {
 	        led_on(can);
-	        HAL_CAN_AddTxMessage(&hcan, &TxHeader1, value1, &TxMailbox);
+	        HAL_CAN_AddTxMessage(&hcan, &TxHeader2, value2, &TxMailbox);
 	    }
 }
 
 void MotorCtrl::ems(){
-	uint8_t value3[8];
+	uint8_t value3[8] = {0,0,0,0,0,0,0,0};
 	led_on(can);
 	HAL_CAN_AddTxMessage(&hcan, &TxHeader1, value3, &TxMailbox);
 	HAL_CAN_AddTxMessage(&hcan, &TxHeader2, value3, &TxMailbox);
@@ -99,7 +121,8 @@ void MotorCtrl::reset(){
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	if (htim == &htim3){
+	if (htim->Instance == TIM3){
+	//TIM_ClearITPendingBit(TIM3, TIM_IT_CC4);
 		if(HAL_GPIO_ReadPin(EMS_GPIO_Port, EMS_Pin)){
 			motor.transmit1();
 			motor.transmit2();
