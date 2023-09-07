@@ -37,7 +37,7 @@ private:
 	MotorParam param;
 	uint8_t diag = 0;
 public:
-	bool update(uint32_t& ReceiveID,uint8_t receiveData[8]);
+	bool update(uint32_t ReceiveID,uint8_t receiveData[8]);
 	void setMode(uint8_t usb_msg[]);
 	void setTemp(uint8_t usb_msg[]);
 	void setTarget(uint8_t usb_msg[]);
@@ -54,7 +54,7 @@ public:
 
 
 
-inline bool MotorCtrl::update(uint32_t& ReceiveID,uint8_t receiveData[8]){
+inline bool MotorCtrl::update(uint32_t ReceiveID,uint8_t receiveData[8]){
 	if(ReceiveID<0x201||ReceiveID>0x208){return false;}
 	MotorCtrl::param.mechanical_angle[ReceiveID-0x201]
 		= static_cast<float>((static_cast<uint16_t>(receiveData[0]) << 8) | receiveData[1])*360/8191;

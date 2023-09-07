@@ -23,6 +23,7 @@ void led_on(led name)
     // if the led is off.
     if (led_list[name].is_high == 0)
     {
+    	led_list[name].is_high = 1;
         HAL_GPIO_WritePin(led_list[name].gpio, led_list[name].pin, GPIO_PIN_SET);
         led_list[name].before_tick = HAL_GetTick();
     }

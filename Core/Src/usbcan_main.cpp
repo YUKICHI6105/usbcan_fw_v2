@@ -76,6 +76,6 @@ void main_cpp()
 			}
 		}
 
-		led_process();
+		led_process(); //turn off all led
 	}
 }

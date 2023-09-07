@@ -18,6 +18,7 @@ extern CAN_TxHeaderTypeDef TxHeader1;
 extern CAN_TxHeaderTypeDef TxHeader2;
 extern uint32_t TxMailbox;
 extern CAN_HandleTypeDef hcan;
+extern TIM_HandleTypeDef htim3;
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
@@ -34,7 +35,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
     // It is a terrible code. Sorry for hard work to read the code.
     if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, Data + 6) == HAL_OK)
     {
-    	if(motor.update(&RxHeader.StdId,Data + 6)){
+    	if(motor.update(RxHeader.StdId,Data + 6)){
     		if(motor.diag == 1){can_process(&RxHeader, Data);}
     	}else{
     		can_process(&RxHeader, Data);
@@ -91,15 +92,15 @@ void MotorCtrl::reset(){
 	for(int i = 0;i<8;i++){
 		value1[i]=0;
 		value2[i]=0;
-		target[i]=0;
-		mode[i]=Mode::dis;
-		gool[i]=0;
+		param.target[i]=0;
+		param.mode[i]=Mode::dis;
+		param.gool[i]=0;
 	}
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if (htim == &htim3){
-		if(!((EMS_GPIO_Port->IDR & EMS_Pin) == EMS_Pin)){
+		if(HAL_GPIO_ReadPin(EMS_GPIO_Port, EMS_Pin)){
 			motor.transmit1();
 			motor.transmit2();
 		}else{
