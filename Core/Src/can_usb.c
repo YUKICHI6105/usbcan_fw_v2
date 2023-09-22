@@ -35,6 +35,7 @@ void usb_process(uint8_t usb_msg[], const uint8_t len)
         static uint8_t HelloSLCAN_encoded[] = {0x0c, 0x01 << 4, 'H', 'e', 'l', 'l', 'o', 'S', 'L', 'C', 'A', 'N', 0x00};
         CDC_Transmit_FS(HelloSLCAN_encoded, 11 + 2);
     }
+    break;
     default:
         break;
     }
