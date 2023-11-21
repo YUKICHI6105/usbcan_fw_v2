@@ -4,10 +4,12 @@
 #include "usbd_cdc_if.h"
 #include "stm32f3xx_hal.h"
 #include "main.h"
+#include "buffer.hpp"
 
 #include "led.h"
 
 extern CAN_HandleTypeDef hcan;
+Buffer buffer;
 
 void usb_to_can(uint8_t usb_msg[], const uint8_t len);
 
@@ -151,5 +153,50 @@ void usb_to_can(uint8_t usb_msg[], const uint8_t len)
     {
         led_on(can);
         HAL_CAN_AddTxMessage(&hcan, &TxHeader, usb_msg + 6, &TxMailbox);
+    }else{
+    	buffer.setBuffer(usb_msg);
     }
 }
+
+void Buffer::resend(){
+	for(uint8_t i = 0;i<4;i++){
+		if(buffer[i].sended == false){
+			if (buffer[i].data[0] & 0x02)
+			{
+		        // extended id
+		        TxHeader.IDE = CAN_ID_EXT;
+		        TxHeader.ExtId = (buffer[i].data[1] << 24) | (buffer[i].data[2] << 16) | (buffer[i].data[3] << 8) | (buffer[i].data[4] << 0);
+		    }
+		    else
+		    {
+		        // standard id
+		        TxHeader.IDE = CAN_ID_STD;
+		        TxHeader.StdId = (buffer[i].data[1] << 24) | (buffer[i].data[2] << 16) | (buffer[i].data[3] << 8) | (buffer[i].data[4] << 0);
+		    }
+
+		    // is_rtr
+		    if (buffer[i].data[0] & 0x04)
+		    {
+		        TxHeader.RTR = CAN_RTR_REMOTE;
+		    }
+		    else
+		    {
+		        TxHeader.RTR = CAN_RTR_DATA;
+		    }
+
+		    // is_error
+		    //?
+
+		    TxHeader.TransmitGlobalTime = DISABLE;
+		    // dlc
+		    TxHeader.DLC = buffer[i].data[5];
+
+		    if (0 < HAL_CAN_GetTxMailboxesFreeLevel(&hcan))
+		    {
+		        led_on(can);
+		        HAL_CAN_AddTxMessage(&hcan, &TxHeader, buffer[i].data + 6, &TxMailbox);
+		    }
+		}
+	}
+}
+

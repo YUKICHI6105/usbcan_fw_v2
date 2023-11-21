@@ -3,9 +3,11 @@
 #include "usb_device.h"
 #include "led.h"
 #include "can_usb.h"
+#include "buffer.hpp"
 
 extern CAN_HandleTypeDef hcan;
 extern USBD_HandleTypeDef hUsbDeviceFS;
+extern Buffer buffer;
 
 void main_cpp()
 {
@@ -56,7 +58,7 @@ void main_cpp()
 				break;
 			}
 		}
-
+		buffer.resend();
 		led_process();
 	}
 }

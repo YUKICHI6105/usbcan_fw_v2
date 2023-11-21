@@ -1,2 +1,2 @@
-led.c:21:6:led_on	2
-led.c:31:6:led_process	4
+../Core/Src/led.c:21:6:led_on	2
+../Core/Src/led.c:32:6:led_process	4
