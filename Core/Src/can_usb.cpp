@@ -195,6 +195,7 @@ void Buffer::resend(){
 		    {
 		        led_on(can);
 		        HAL_CAN_AddTxMessage(&hcan, &TxHeader, buffer[i].data + 6, &TxMailbox);
+		        buffer[i].sended = true;
 		    }
 		}
 	}
