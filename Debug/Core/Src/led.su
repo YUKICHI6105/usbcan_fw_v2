@@ -1,2 +1,0 @@
-../Core/Src/led.c:21:6:led_on	8	static
-../Core/Src/led.c:32:6:led_process	24	static

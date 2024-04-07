@@ -4,6 +4,10 @@
 ################################################################################
 
 # Add inputs and outputs from these tool invocations to the build variables 
+CPP_SRCS += \
+../Core/Src/can_usb.cpp \
+../Core/Src/usbcan_main.cpp 
+
 C_SRCS += \
 ../Core/Src/cobs.c \
 ../Core/Src/led.c \
@@ -14,10 +18,6 @@ C_SRCS += \
 ../Core/Src/sysmem.c \
 ../Core/Src/system_stm32f3xx.c \
 ../Core/Src/user_if.c 
-
-CPP_SRCS += \
-../Core/Src/can_usb.cpp \
-../Core/Src/usbcan_main.cpp 
 
 C_DEPS += \
 ./Core/Src/cobs.d \
